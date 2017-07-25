@@ -19,11 +19,9 @@ public class Controller {
         while (!model.giveAnswer(model.userNumber, model.getGameNumber())) {
             if (model.comparing(model.userNumber, model.getGameNumber()).equals("Game number higher")) {
             	model.minRand = model.userNumber;
-  //          	view.printMessage(model.comparing(model.userNumber, model.getGameNumber()));
             } 
             else if (model.comparing(model.userNumber, model.getGameNumber()).equals("Game number less")) {
             	model.maxRand = model.userNumber;
-  //          	view.printMessage(model.comparing(model.userNumber, model.getGameNumber()));
             } 
             else 
             	view.printMessage(model.comparing(model.userNumber, model.getGameNumber()));
@@ -35,12 +33,27 @@ public class Controller {
         view.printMessage(model.comparing(model.userNumber, model.getGameNumber()));
     }
 
+    public boolean checkedInputValue (int input) {
+    	if (input<model.minRand || input>model.maxRand)
+    		return false;
+    		else return true;
+    }
+        
     public int inputIntValueWithScanner(Scanner sc) {
-        view.printMessage(view.INPUT_DATA);
+        int input = 0;
+    	view.printMessage(view.INPUT_DATA);
         while (! sc.hasNextInt()) {
             view.printMessage(view.WRONG_DATA);
             sc.next();
         };
-        return sc.nextInt();
+        input = sc.nextInt();
+        
+        if (checkedInputValue(input))
+        	return input;
+        	else {
+        		view.printMessage(view.OUT_DATA);
+        		inputIntValueWithScanner(sc);
+        		return input;
+        	}
     }
 }
